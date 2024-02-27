@@ -1,9 +1,9 @@
-package Game;
+package exercises.classes;
 
 public class Spielfeld {
     private int[][] spielfeld;
-    private int size;
-    private int number_of_colors;
+    private final int size;
+    private final int number_of_colors;
 
     public Spielfeld(int size, int number_of_colors) {
         this.size = size;
@@ -12,7 +12,7 @@ public class Spielfeld {
         for (int row = 0; row < spielfeld.length; row++) {
             for (int column = 0; column < spielfeld[row].length; column++) {
                 spielfeld[row][column] = (int) (Math.random() * number_of_colors);
-                while (!isValid(spielfeld, row, column)) {
+                while (!isValid(spielfeld, row, column, true)) {
                     spielfeld[row][column] = (spielfeld[row][column] + 1) & number_of_colors;
                 }
             }
@@ -24,24 +24,26 @@ public class Spielfeld {
     }
 
     // Das passt schon so
-    private boolean isValid(int[][] spielfeld, int row, int column) {
+    private boolean isValid(int[][] spielfeld, int row, int column, boolean initialization) {
         if (column > 1 && spielfeld[row][column - 2] == spielfeld[row][column - 1]
                 && spielfeld[row][column - 1] == spielfeld[row][column]) return false;
-
-        if (column > 0 && column < (size - 1) && spielfeld[row][column - 1] == spielfeld[row][column]
-                && spielfeld[row][column] == spielfeld[row][column + 1]) return false;
-
-        if (column < (size - 2) && spielfeld[row][column] == spielfeld[row][column + 1]
-                && spielfeld[row][column + 1] == spielfeld[row][column + 2]) return false;
 
         if (row > 1 && spielfeld[row - 2][column] == spielfeld[row - 1][column]
                 && spielfeld[row - 1][column] == spielfeld[row][column]) return false;
 
-        if (row > 0 && row < (size - 1) && spielfeld[row - 1][column] == spielfeld[row][column]
-                && spielfeld[row][column] == spielfeld[row + 1][column]) return false;
+        if (!initialization) {
+            if (column > 0 && column < (size - 1) && spielfeld[row][column - 1] == spielfeld[row][column]
+                    && spielfeld[row][column] == spielfeld[row][column + 1]) return false;
 
-        if (row < (size - 2) && spielfeld[row][column] == spielfeld[row + 1][column]
-                && spielfeld[row + 1][column] == spielfeld[row + 2][column]) return false;
+            if (column < (size - 2) && spielfeld[row][column] == spielfeld[row][column + 1]
+                    && spielfeld[row][column + 1] == spielfeld[row][column + 2]) return false;
+
+            if (row > 0 && row < (size - 1) && spielfeld[row - 1][column] == spielfeld[row][column]
+                    && spielfeld[row][column] == spielfeld[row + 1][column]) return false;
+
+            if (row < (size - 2) && spielfeld[row][column] == spielfeld[row + 1][column]
+                    && spielfeld[row + 1][column] == spielfeld[row + 2][column]) return false;
+        }
 
         return true;
     }
@@ -121,7 +123,7 @@ public class Spielfeld {
             for (int column = 0; column < spielfeld[row].length; column++) {
                 if (spielfeld[row][column] == number_of_colors) {
                     this.spielfeld[row][column] = (int) (Math.random() * number_of_colors);
-                    while (!isValid(this.spielfeld, row, column)) {
+                    while (!isValid(this.spielfeld, row, column, false)) {
                         this.spielfeld[row][column] = (this.spielfeld[row][column] + 1) & number_of_colors;
                     }
                 }
