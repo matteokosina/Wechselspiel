@@ -18,9 +18,11 @@ public class Spielfeld {
             }
         }
     }
-    public int[][] getSpielfeld(){
+
+    public int[][] getSpielfeld() {
         return spielfeld;
     }
+
     // Das passt schon so
     private boolean isValid(int[][] spielfeld, int row, int column) {
         if (column > 1 && spielfeld[row][column - 2] == spielfeld[row][column - 1]
@@ -45,11 +47,12 @@ public class Spielfeld {
     }
 
     public int swap(int row1, int column1, int row2, int column2) {
-        int[][] spielfeld = this.spielfeld.clone();
-        int temp = spielfeld[row1][column1];
-        spielfeld[row1][column1] = spielfeld[row2][column2];
-        spielfeld[row2][column2] = temp;
-        int points = getPoints(spielfeld);
+        int[][] original_spielfeld = copy(this.spielfeld);
+        int temp = this.spielfeld[row1][column1];
+        this.spielfeld[row1][column1] = this.spielfeld[row2][column2];
+        this.spielfeld[row2][column2] = temp;
+        int points = getPoints(this.spielfeld);
+        if (points == 0) this.spielfeld = original_spielfeld;
         return points;
     }
 
@@ -59,6 +62,7 @@ public class Spielfeld {
         // check duplicates in rows
         for (int row = 0; row < spielfeld.length; row++) {
             for (int column = 0; column < spielfeld[row].length; column++) {
+                if (spielfeld[row][column] == number_of_colors) continue;
                 if (column < (size - 1) && spielfeld[row][column] == spielfeld[row][column + 1]) {
                     if (column < (size - 2) && spielfeld[row][column + 1] == spielfeld[row][column + 2]) {
                         counter += 30;
@@ -84,6 +88,7 @@ public class Spielfeld {
         // check duplicates in columns
         for (int row = 0; row < row_spielfeld.length; row++) {
             for (int column = 0; column < row_spielfeld[row].length; column++) {
+                if (row_spielfeld[row][column] == number_of_colors) continue;
                 if (row < (size - 1) && row_spielfeld[row][column] == row_spielfeld[row + 1][column]) {
                     if (row < (size - 2) && row_spielfeld[row + 1][column] == row_spielfeld[row + 2][column]) {
                         counter += 30;
@@ -123,6 +128,17 @@ public class Spielfeld {
             }
         }
     }
+
+    private int[][] copy(int[][] src) {
+        int[][] dst = new int[src.length][src[0].length];
+        for (int row = 0; row < src.length; row++) {
+            for (int column = 0; column < src[row].length; column++) {
+                dst[row][column] = src[row][column];
+            }
+        }
+        return dst;
+    }
+
 
     @Override
     public String toString() {
