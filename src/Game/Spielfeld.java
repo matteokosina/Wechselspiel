@@ -13,7 +13,7 @@ public class Spielfeld {
             for (int column = 0; column < spielfeld[row].length; column++) {
                 spielfeld[row][column] = (int) (Math.random() * number_of_colors);
                 while (!isValid(spielfeld, row, column, true)) {
-                    spielfeld[row][column] = (spielfeld[row][column] + 1) & number_of_colors;
+                    spielfeld[row][column] = (spielfeld[row][column] + 1) % number_of_colors;
                 }
             }
         }
