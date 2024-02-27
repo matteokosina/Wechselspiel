@@ -25,6 +25,7 @@ public class Spielfeld {
 
     // Das passt schon so
     private boolean isValid(int[][] spielfeld, int row, int column, boolean initialization) {
+        if (spielfeld[row][column] < 0 || spielfeld[row][column] > (size - 1)) return false;
         if (column > 1 && spielfeld[row][column - 2] == spielfeld[row][column - 1]
                 && spielfeld[row][column - 1] == spielfeld[row][column]) return false;
 
