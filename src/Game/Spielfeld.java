@@ -1,4 +1,4 @@
-package exercises.classes;
+package Game;
 
 public class Spielfeld {
     private int[][] spielfeld;
@@ -18,7 +18,9 @@ public class Spielfeld {
             }
         }
     }
-
+    public int[][] getSpielfeld(){
+        return spielfeld;
+    }
     // Das passt schon so
     private boolean isValid(int[][] spielfeld, int row, int column) {
         if (column > 1 && spielfeld[row][column - 2] == spielfeld[row][column - 1]
@@ -107,7 +109,6 @@ public class Spielfeld {
         return counter;
     }
 
-    private
 
     @Override
     public String toString() {

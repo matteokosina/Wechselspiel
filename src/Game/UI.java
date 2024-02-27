@@ -3,6 +3,7 @@ package Game;
 import java.util.Random;
 
 public class UI {
+    private static Spielfeld spielfeld;
     private static int[][] board;
     public static final String YELLOW = "\u001B[43m";
     public static final String RED = "\u001B[41m";
@@ -13,21 +14,13 @@ public class UI {
     public static final String CYAN = "\u001B[46m";
     public static final String RESET = "\u001B[0m";
     public static void main(String[] args) {
-        board = new int[9][9];
-        randomFillBoard();
+        spielfeld = new Spielfeld(9,7);
+        board = spielfeld.getSpielfeld();
         printBoard();
     }
 
 
-    public static void randomFillBoard() {
-        for(int i = 0; i < board.length; i++){
-            for(int m = 0; m < board.length; m++){
-                Random random = new Random();
-                int randomNumber = random.nextInt(7);
-                board[i][m] = randomNumber;
-            }
-        }
-    }
+
     
     public static void printBoard(){
         System.out.println("Board:");
