@@ -82,33 +82,47 @@ public class Spielfeld {
             }
         }
         // check duplicates in columns
-        for (int row = 0; row < spielfeld.length; row++) {
-            for (int column = 0; column < spielfeld[row].length; column++) {
-                if (row < (size - 1) && spielfeld[row][column] == spielfeld[row + 1][column]) {
-                    if (row < (size - 2) && spielfeld[row + 1][column] == spielfeld[row + 2][column]) {
+        for (int row = 0; row < row_spielfeld.length; row++) {
+            for (int column = 0; column < row_spielfeld[row].length; column++) {
+                if (row < (size - 1) && row_spielfeld[row][column] == row_spielfeld[row + 1][column]) {
+                    if (row < (size - 2) && row_spielfeld[row + 1][column] == row_spielfeld[row + 2][column]) {
                         counter += 30;
-                        spielfeld[row][column] = number_of_colors;
-                        spielfeld[row + 1][column] = number_of_colors;
-                        if (row < (size - 3) && spielfeld[row + 2][column] == spielfeld[row + 3][column]) {
+                        row_spielfeld[row][column] = number_of_colors;
+                        row_spielfeld[row + 1][column] = number_of_colors;
+                        if (row < (size - 3) && row_spielfeld[row + 2][column] == row_spielfeld[row + 3][column]) {
                             counter += 10;
-                            spielfeld[row + 2][column] = number_of_colors;
-                            if (row < (size - 4) && spielfeld[row + 3][column] == spielfeld[row + 4][column]) {
+                            row_spielfeld[row + 2][column] = number_of_colors;
+                            if (row < (size - 4) && row_spielfeld[row + 3][column] == row_spielfeld[row + 4][column]) {
                                 counter += 10;
-                                spielfeld[row + 3][column] = number_of_colors;
-                                spielfeld[row + 4][column] = number_of_colors;
+                                row_spielfeld[row + 3][column] = number_of_colors;
+                                row_spielfeld[row + 4][column] = number_of_colors;
                             } else {
-                                spielfeld[row + 3][column] = number_of_colors;
+                                row_spielfeld[row + 3][column] = number_of_colors;
                             }
                         } else {
-                            spielfeld[row + 2][column] = number_of_colors;
+                            row_spielfeld[row + 2][column] = number_of_colors;
                         }
                     }
                 }
             }
         }
+        reinitialize(spielfeld);
+        reinitialize(row_spielfeld);
         return counter;
     }
 
+    private void reinitialize(int[][] spielfeld) {
+        for (int row = 0; row < spielfeld.length; row++) {
+            for (int column = 0; column < spielfeld[row].length; column++) {
+                if (spielfeld[row][column] == number_of_colors) {
+                    this.spielfeld[row][column] = (int) (Math.random() * number_of_colors);
+                    while (!isValid(this.spielfeld, row, column)) {
+                        this.spielfeld[row][column] = (this.spielfeld[row][column] + 1) & number_of_colors;
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public String toString() {
